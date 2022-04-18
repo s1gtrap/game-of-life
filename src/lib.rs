@@ -116,17 +116,23 @@ fn countcounts(counts: &mut [u8], states: &[bool], width: usize, height: usize) 
 }
 
 #[test]
-fn test_countcounts() {
-    let w = 3;
-    let h = 3;
-    let mut counts = vec![0; (w + 2) * (h + 2)];
-    let mut states = vec![
-        false, false, false, false, false, false, false, true, false, false, false, false, true,
-        false, false, false, false, true, false, false, false, false, false, false, false,
-    ];
-    countcounts(&mut counts, &states, 3, 3);
+fn test_simple() {
+    let mut life = <Simple as Life>::from(shapes::BLINKER);
     assert_eq!(
-        counts,
-        vec![0, 1, 1, 1, 0, 0, 2, 1, 2, 0, 0, 3, 2, 3, 0, 0, 2, 1, 2, 0, 0, 1, 1, 1, 0,]
-    )
+        life.cells(),
+        vec![
+            false, false, false, false, false, false, false, true, false, false, false, false,
+            true, false, false, false, false, true, false, false, false, false, false, false,
+            false,
+        ],
+    );
+    life.step();
+    assert_eq!(
+        life.cells(),
+        vec![
+            false, false, false, false, false, false, false, false, false, false, false, true,
+            true, true, false, false, false, false, false, false, false, false, false, false,
+            false,
+        ],
+    );
 }
