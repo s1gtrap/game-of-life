@@ -1,4 +1,5 @@
 #![feature(stdin_forwarders)]
+#![allow(dead_code)]
 
 const BLINKER: (usize, usize, &'static str) = (
     3,
@@ -54,32 +55,11 @@ const PULSAR: (usize, usize, &'static str) = (
 );
 
 fn main() {
-    let (w, h, shape) = PULSAR;
-    let mut counts = vec![0; (w + 2) * (h + 2)];
-    let mut states: Vec<_> = shape
-        .lines()
-        .map(|l| l.chars())
-        .flatten()
-        .map(|c| c == '.')
-        .collect();
-    let print = |states: &[bool]| {
-        println!("+{:-<1$}+", "", w + 2);
-        for i in 0..(h + 2) {
-            print!("|");
-            for j in 0..(w + 2) {
-                if states[i * (w + 2) + j] {
-                    print!("w");
-                } else {
-                    print!(" ");
-                }
-            }
-            println!("|");
-        }
-        println!("+{:-<1$}+", "", w + 2);
-    };
-    print(&states);
+    use game_of_life::Life;
+    let mut life = <game_of_life::Simple as Life>::from(PULSAR);
+    println!("{}", life.display());
     while let Some(_) = std::io::stdin().lines().next() {
-        game_of_life::gameoflife(&mut counts, &mut states, w, h);
-        print(&states);
+        life.step();
+        println!("{}", life.display());
     }
 }
