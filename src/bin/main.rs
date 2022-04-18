@@ -16,7 +16,9 @@ fn main() {
     .map(|c| c == '.')
     .collect();
     let print = |states: &[bool]| {
+        println!("+{:-<1$}+", "", w + 2);
         for i in 0..(h + 2) {
+            print!("|");
             for j in 0..(w + 2) {
                 if states[i * (w + 2) + j] {
                     print!("w");
@@ -24,8 +26,9 @@ fn main() {
                     print!(" ");
                 }
             }
-            println!();
+            println!("|");
         }
+        println!("+{:-<1$}+", "", w + 2);
     };
     print(&states);
     while let Some(_) = std::io::stdin().lines().next() {
