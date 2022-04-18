@@ -1,5 +1,7 @@
 use std::fmt;
 
+pub mod shapes;
+
 pub trait Life: Sized {
     fn new<I>(width: usize, height: usize, i: I) -> Self
     where
