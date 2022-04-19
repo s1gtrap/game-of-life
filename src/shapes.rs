@@ -16,8 +16,7 @@ pub const TOAD: (usize, usize, &'static str) = (
  .  . 
  .  . 
   .   
-      
-   "#,
+      "#,
 );
 
 pub const BEACON: (usize, usize, &'static str) = (
@@ -28,8 +27,7 @@ pub const BEACON: (usize, usize, &'static str) = (
  .    
     . 
    .. 
-      
-   "#,
+      "#,
 );
 
 pub const PULSAR: (usize, usize, &'static str) = (

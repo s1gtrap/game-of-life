@@ -11,6 +11,10 @@ pub trait Life: Sized {
     fn cells(&self) -> &[bool];
     fn step(&mut self);
 
+    fn from_str((w, h, s): (usize, usize, &'static str)) -> Self {
+        Self::from((w, h, s))
+    }
+
     fn from((w, h, s): (usize, usize, &'static str)) -> Self {
         Self::new(
             w,
@@ -61,11 +65,11 @@ impl Life for Simple {
     }
 
     fn width(&self) -> usize {
-        self.0
+        self.0 + 2
     }
 
     fn height(&self) -> usize {
-        self.1
+        self.1 + 2
     }
 
     fn cells(&self) -> &[bool] {
@@ -113,6 +117,32 @@ fn countcounts(counts: &mut [u8], states: &[bool], width: usize, height: usize) 
             counts[(i + 1 + 1) * awidth + (j + 1) - 1] += val;
         }
     }
+}
+
+#[test]
+fn test_life_from_str() {
+    let blinker = Simple::from_str(shapes::BLINKER);
+    assert_eq!(blinker.width(), 5);
+    assert_eq!(blinker.height(), 5);
+    assert_eq!(
+        blinker.cells(),
+        &[
+            false, false, false, false, false, false, false, true, false, false, false, false,
+            true, false, false, false, false, true, false, false, false, false, false, false,
+            false,
+        ][..]
+    );
+    let toad = Simple::from_str(shapes::TOAD);
+    assert_eq!(toad.width(), 6);
+    assert_eq!(toad.height(), 6);
+    assert_eq!(
+        toad.cells(),
+        &[
+            false, false, false, false, false, false, false, false, false, true, false, false,
+            false, true, false, false, true, false, false, true, false, false, true, false, false,
+            false, true, false, false, false, false, false, false, false, false, false,
+        ][..]
+    );
 }
 
 #[test]
