@@ -12,9 +12,20 @@ pub trait Life: Sized {
     fn step(&mut self);
 
     fn from_str(s: &'static str) -> Self {
-        let w = s.lines().next().unwrap().len() - 2;
-        let h = s.lines().count() - 2;
-        Self::from((w, h, s))
+        let w = s.lines().next().unwrap().len();
+        let h = s.lines().count();
+        Self::new(
+            w - 2,
+            h - 2,
+            s.lines()
+                .enumerate()
+                .map(|(i, l)| {
+                    assert_eq!(w, l.len(), "{}", i);
+                    l.chars()
+                })
+                .flatten()
+                .map(|c| c == '.'),
+        )
     }
 
     fn from((w, h, s): (usize, usize, &'static str)) -> Self {
@@ -67,11 +78,11 @@ impl Life for Simple {
     }
 
     fn width(&self) -> usize {
-        self.0 + 2
+        self.0
     }
 
     fn height(&self) -> usize {
-        self.1 + 2
+        self.1
     }
 
     fn cells(&self) -> &[bool] {
