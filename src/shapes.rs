@@ -45,3 +45,24 @@ pub const PENTADECATHLON: &'static str = "
                     
                     
                     ";
+
+pub const GOSPLER_GLIDER_GUN: &'static str = "                                        
+                         .              
+                       . .              
+             ..      ..            ..   
+            .   .    ..            ..   
+ ..        .     .   ..                 
+ ..        .   . ..    . .              
+           .     .       .              
+            .   .                       
+             ..                         
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        ";

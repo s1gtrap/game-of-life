@@ -14,6 +14,7 @@ pub trait Life: Sized {
     fn from_str(s: &'static str) -> Self {
         let w = s.lines().next().unwrap().len();
         let h = s.lines().count();
+        println!("{},{}", w, h);
         Self::new(
             w - 2,
             h - 2,
