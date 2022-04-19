@@ -21,11 +21,11 @@ impl Life for Simple {
     }
 
     fn width(&self) -> usize {
-        self.width + 2
+        self.width
     }
 
     fn height(&self) -> usize {
-        self.height + 2
+        self.height
     }
 
     fn cells(&self) -> &[bool] {
@@ -37,10 +37,10 @@ impl Life for Simple {
         self.counts.iter_mut().for_each(|x| *x = 0);
 
         // count
-        let awidth = self.width + 2;
+        let awidth = self.width;
         for i in 0..self.height {
             for j in 0..self.width {
-                let val = self.states[(i + 1) * awidth + (j + 1)] as u8;
+                let val = self.states[i * awidth + j] as u8;
                 self.counts[(i + 1 + 1) * awidth + j + 1] += val;
                 self.counts[(i + 1 - 1) * awidth + j + 1] += val;
                 self.counts[(i + 1) * awidth + j + 1 + 1] += val;
@@ -55,9 +55,9 @@ impl Life for Simple {
         // iterate
         for i in 0..self.height {
             for j in 0..self.width {
-                let coord = (i + 1) * (self.width + 2) + (j + 1);
+                let coord = i * (self.width) + j;
                 let currentvalue = self.states[coord];
-                let neighbors = self.counts[(i + 1) * (self.width + 2) + j + 1];
+                let neighbors = self.counts[(i + 1) * (self.width) + j + 1];
                 if currentvalue {
                     if neighbors < 2 || neighbors > 3 {
                         self.states[coord] = false;

@@ -19,8 +19,8 @@ pub trait Life: Sized {
         let h = s.lines().count();
         println!("{},{}", w, h);
         Self::new(
-            w - 2,
-            h - 2,
+            w,
+            h,
             s.lines()
                 .enumerate()
                 .map(|(i, l)| {
