@@ -50,11 +50,11 @@ where
     L: Life,
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        writeln!(f, "+{:-<1$}+", "", self.0.width() + 2)?;
-        for i in 0..(self.0.height() + 2) {
+        writeln!(f, "+{:-<1$}+", "", self.0.width())?;
+        for i in 0..(self.0.height()) {
             write!(f, "|")?;
-            for j in 0..(self.0.width() + 2) {
-                if self.0.cells()[i * (self.0.width() + 2) + j] {
+            for j in 0..(self.0.width()) {
+                if self.0.cells()[i * (self.0.width()) + j] {
                     write!(f, "w")?;
                 } else {
                     write!(f, " ")?;
@@ -62,7 +62,7 @@ where
             }
             writeln!(f, "|")?;
         }
-        writeln!(f, "+{:-<1$}+", "", self.0.width() + 2)?;
+        writeln!(f, "+{:-<1$}+", "", self.0.width())?;
         Ok(())
     }
 }
@@ -78,11 +78,11 @@ impl Life for Simple {
     }
 
     fn width(&self) -> usize {
-        self.0
+        self.0 + 2
     }
 
     fn height(&self) -> usize {
-        self.1
+        self.1 + 2
     }
 
     fn cells(&self) -> &[bool] {
