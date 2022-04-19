@@ -1,5 +1,4 @@
 #![feature(stdin_forwarders)]
-#![allow(dead_code)]
 
 fn main() {
     use game_of_life::Life;
