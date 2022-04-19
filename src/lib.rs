@@ -11,7 +11,9 @@ pub trait Life: Sized {
     fn cells(&self) -> &[bool];
     fn step(&mut self);
 
-    fn from_str((w, h, s): (usize, usize, &'static str)) -> Self {
+    fn from_str(s: &'static str) -> Self {
+        let w = s.lines().next().unwrap().len() - 2;
+        let h = s.lines().count() - 2;
         Self::from((w, h, s))
     }
 
@@ -120,8 +122,8 @@ fn countcounts(counts: &mut [u8], states: &[bool], width: usize, height: usize) 
 }
 
 #[test]
-fn test_life_from_str() {
-    let blinker = Simple::from_str(shapes::BLINKER);
+fn test_life_from() {
+    let blinker = <Simple as Life>::from(shapes::BLINKER);
     assert_eq!(blinker.width(), 5);
     assert_eq!(blinker.height(), 5);
     assert_eq!(
@@ -130,9 +132,9 @@ fn test_life_from_str() {
             false, false, false, false, false, false, false, true, false, false, false, false,
             true, false, false, false, false, true, false, false, false, false, false, false,
             false,
-        ][..]
+        ][..],
     );
-    let toad = Simple::from_str(shapes::TOAD);
+    let toad = <Simple as Life>::from(shapes::TOAD);
     assert_eq!(toad.width(), 6);
     assert_eq!(toad.height(), 6);
     assert_eq!(
@@ -141,7 +143,33 @@ fn test_life_from_str() {
             false, false, false, false, false, false, false, false, false, true, false, false,
             false, true, false, false, true, false, false, true, false, false, true, false, false,
             false, true, false, false, false, false, false, false, false, false, false,
-        ][..]
+        ][..],
+    );
+}
+
+#[test]
+fn test_life_from_str() {
+    let blinker = Simple::from_str(shapes::BLINKER_S);
+    assert_eq!(blinker.width(), 5);
+    assert_eq!(blinker.height(), 5);
+    assert_eq!(
+        blinker.cells(),
+        &[
+            false, false, false, false, false, false, false, true, false, false, false, false,
+            true, false, false, false, false, true, false, false, false, false, false, false,
+            false,
+        ][..],
+    );
+    let toad = Simple::from_str(shapes::TOAD_S);
+    assert_eq!(toad.width(), 6);
+    assert_eq!(toad.height(), 6);
+    assert_eq!(
+        toad.cells(),
+        &[
+            false, false, false, false, false, false, false, false, false, true, false, false,
+            false, true, false, false, true, false, false, true, false, false, true, false, false,
+            false, true, false, false, false, false, false, false, false, false, false,
+        ][..],
     );
 }
 

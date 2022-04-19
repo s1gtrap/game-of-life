@@ -1,3 +1,9 @@
+pub const BLINKER_S: &'static str = r#"     
+  .  
+  .  
+  .  
+     "#;
+
 pub const BLINKER: (usize, usize, &'static str) = (
     3,
     3,
@@ -7,6 +13,13 @@ pub const BLINKER: (usize, usize, &'static str) = (
   .  
      "#,
 );
+
+pub const TOAD_S: &'static str = r#"      
+   .  
+ .  . 
+ .  . 
+  .   
+      "#;
 
 pub const TOAD: (usize, usize, &'static str) = (
     4,
