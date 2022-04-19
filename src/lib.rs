@@ -133,34 +133,8 @@ fn countcounts(counts: &mut [u8], states: &[bool], width: usize, height: usize) 
 }
 
 #[test]
-fn test_life_from() {
-    let blinker = <Simple as Life>::from(shapes::BLINKER);
-    assert_eq!(blinker.width(), 5);
-    assert_eq!(blinker.height(), 5);
-    assert_eq!(
-        blinker.cells(),
-        &[
-            false, false, false, false, false, false, false, true, false, false, false, false,
-            true, false, false, false, false, true, false, false, false, false, false, false,
-            false,
-        ][..],
-    );
-    let toad = <Simple as Life>::from(shapes::TOAD);
-    assert_eq!(toad.width(), 6);
-    assert_eq!(toad.height(), 6);
-    assert_eq!(
-        toad.cells(),
-        &[
-            false, false, false, false, false, false, false, false, false, true, false, false,
-            false, true, false, false, true, false, false, true, false, false, true, false, false,
-            false, true, false, false, false, false, false, false, false, false, false,
-        ][..],
-    );
-}
-
-#[test]
 fn test_life_from_str() {
-    let blinker = Simple::from_str(shapes::BLINKER_S);
+    let blinker = Simple::from_str(shapes::BLINKER);
     assert_eq!(blinker.width(), 5);
     assert_eq!(blinker.height(), 5);
     assert_eq!(
@@ -171,7 +145,7 @@ fn test_life_from_str() {
             false,
         ][..],
     );
-    let toad = Simple::from_str(shapes::TOAD_S);
+    let toad = Simple::from_str(shapes::TOAD);
     assert_eq!(toad.width(), 6);
     assert_eq!(toad.height(), 6);
     assert_eq!(
@@ -185,8 +159,8 @@ fn test_life_from_str() {
 }
 
 #[test]
-fn test_simple() {
-    let mut life = <Simple as Life>::from(shapes::BLINKER);
+fn test_simple_step() {
+    let mut life = <Simple as Life>::from_str(shapes::BLINKER);
     assert_eq!(
         life.cells(),
         vec![
