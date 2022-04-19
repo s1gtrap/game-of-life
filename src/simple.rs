@@ -1,66 +1,73 @@
 use crate::Life;
 
-pub struct Simple(usize, usize, Vec<u8>, Vec<bool>);
+pub struct Simple {
+    width: usize,
+    height: usize,
+    counts: Vec<u8>,
+    states: Vec<bool>,
+}
 
 impl Life for Simple {
-    fn new<I>(w: usize, h: usize, i: I) -> Self
+    fn new<I>(width: usize, height: usize, i: I) -> Self
     where
         I: IntoIterator<Item = bool>,
     {
-        Simple(w, h, vec![0; (w + 2) * (h + 2)], i.into_iter().collect())
+        Simple {
+            width,
+            height,
+            counts: vec![0; (width + 2) * (height + 2)],
+            states: i.into_iter().collect(),
+        }
     }
 
     fn width(&self) -> usize {
-        self.0 + 2
+        self.width + 2
     }
 
     fn height(&self) -> usize {
-        self.1 + 2
+        self.height + 2
     }
 
     fn cells(&self) -> &[bool] {
-        &self.3[..]
+        &self.states[..]
     }
 
     fn step(&mut self) {
-        gameoflife(&mut self.2, &mut self.3, self.0, self.1);
-    }
-}
+        // reset counts
+        self.counts.iter_mut().for_each(|x| *x = 0);
 
-fn gameoflife(counts: &mut [u8], states: &mut [bool], width: usize, height: usize) {
-    countcounts(counts, &*states, width, height);
-    for i in 0..height {
-        for j in 0..width {
-            let coord = (i + 1) * (width + 2) + (j + 1);
-            let currentvalue = states[coord];
-            let neighbors = counts[(i + 1) * (width + 2) + j + 1];
-            if currentvalue {
-                if neighbors < 2 || neighbors > 3 {
-                    states[coord] = false;
-                }
-            } else {
-                if neighbors == 3 {
-                    states[coord] = true;
-                }
+        // count
+        let awidth = self.width + 2;
+        for i in 0..self.height {
+            for j in 0..self.width {
+                let val = self.states[(i + 1) * awidth + (j + 1)] as u8;
+                self.counts[(i + 1 + 1) * awidth + j + 1] += val;
+                self.counts[(i + 1 - 1) * awidth + j + 1] += val;
+                self.counts[(i + 1) * awidth + j + 1 + 1] += val;
+                self.counts[(i + 1) * awidth + j - 1 + 1] += val;
+                self.counts[(i + 1 + 1) * awidth + (j + 1) + 1] += val;
+                self.counts[(i + 1 - 1) * awidth + (j + 1) - 1] += val;
+                self.counts[(i + 1 - 1) * awidth + j + 1 + 1] += val;
+                self.counts[(i + 1 + 1) * awidth + (j + 1) - 1] += val;
             }
         }
-    }
-}
 
-fn countcounts(counts: &mut [u8], states: &[bool], width: usize, height: usize) {
-    counts.iter_mut().for_each(|x| *x = 0);
-    let awidth = width + 2;
-    for i in 0..height {
-        for j in 0..width {
-            let val = states[(i + 1) * awidth + (j + 1)] as u8;
-            counts[(i + 1 + 1) * awidth + j + 1] += val;
-            counts[(i + 1 - 1) * awidth + j + 1] += val;
-            counts[(i + 1) * awidth + j + 1 + 1] += val;
-            counts[(i + 1) * awidth + j - 1 + 1] += val;
-            counts[(i + 1 + 1) * awidth + (j + 1) + 1] += val;
-            counts[(i + 1 - 1) * awidth + (j + 1) - 1] += val;
-            counts[(i + 1 - 1) * awidth + j + 1 + 1] += val;
-            counts[(i + 1 + 1) * awidth + (j + 1) - 1] += val;
+        // iterate
+        for i in 0..self.height {
+            for j in 0..self.width {
+                let coord = (i + 1) * (self.width + 2) + (j + 1);
+                let currentvalue = self.states[coord];
+                let neighbors = self.counts[(i + 1) * (self.width + 2) + j + 1];
+                if currentvalue {
+                    if neighbors < 2 || neighbors > 3 {
+                        self.states[coord] = false;
+                    }
+                } else {
+                    if neighbors == 3 {
+                        self.states[coord] = true;
+                    }
+                }
+            }
         }
     }
 }
