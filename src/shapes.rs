@@ -35,3 +35,13 @@ pub const PULSAR: &'static str = "
     ...   ...    
                  
                  ";
+
+pub const PENTADECATHLON: &'static str = "                    
+                    
+                    
+       .    .       
+     .. .... ..     
+       .    .       
+                    
+                    
+                    ";

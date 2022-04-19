@@ -28,14 +28,6 @@ pub trait Life: Sized {
         )
     }
 
-    fn from((w, h, s): (usize, usize, &'static str)) -> Self {
-        Self::new(
-            w,
-            h,
-            s.lines().map(|l| l.chars()).flatten().map(|c| c == '.'),
-        )
-    }
-
     fn display(&self) -> Display<'_, Self> {
         Display(self)
     }
