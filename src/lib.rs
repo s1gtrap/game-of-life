@@ -161,21 +161,56 @@ fn test_life_from_str() {
 #[test]
 fn test_simple_step() {
     let mut life = <Simple as Life>::from_str(shapes::BLINKER);
+    life.step();
     assert_eq!(
         life.cells(),
-        vec![
-            false, false, false, false, false, false, false, true, false, false, false, false,
-            true, false, false, false, false, true, false, false, false, false, false, false,
-            false,
-        ],
+        Simple::from_str(
+            "     
+     
+ ... 
+     
+     "
+        )
+        .cells(),
     );
     life.step();
     assert_eq!(
         life.cells(),
-        vec![
-            false, false, false, false, false, false, false, false, false, false, false, true,
-            true, true, false, false, false, false, false, false, false, false, false, false,
-            false,
-        ],
+        Simple::from_str(
+            "     
+  .  
+  .  
+  .  
+     "
+        )
+        .cells(),
+    );
+
+    let mut life = <Simple as Life>::from_str(shapes::TOAD);
+    life.step();
+    assert_eq!(
+        life.cells(),
+        Simple::from_str(
+            "      
+      
+  ... 
+ ...  
+      
+      "
+        )
+        .cells(),
+    );
+    life.step();
+    assert_eq!(
+        life.cells(),
+        Simple::from_str(
+            "      
+   .  
+ .  . 
+ .  . 
+  .   
+      "
+        )
+        .cells(),
     );
 }
