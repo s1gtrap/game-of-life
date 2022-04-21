@@ -3,10 +3,9 @@
 use std::time::{Duration, Instant};
 
 fn main() {
-    use std::io::{self, Write};
-
-    use game_of_life::Life;
     use rand::Rng;
+    use std::io;
+    use std::io::Write;
 
     env_logger::init();
 
@@ -16,14 +15,18 @@ fn main() {
         .parse()
         .unwrap();
     let mut rng = rand::thread_rng();
-    let mut life = game_of_life::Simple::new(n, n, (0..n * n).map(|_| rng.gen::<bool>()));
+    let mut states = (0..n * n)
+        .map(|_| [0, 0, 0, rng.gen_range(0..=1u8) * 255])
+        .flatten()
+        .collect::<Vec<_>>();
+    let mut life = game_of_life::init(n, n, &states);
     //log::debug!("{}", life.display());
     let start = Instant::now();
     for _ in 0..100 {
         print!(".");
         io::stdout().flush().unwrap();
 
-        life.step();
+        game_of_life::step(&mut life, &mut states);
         //log::debug!("{}", life.display());
     }
     let duration = start.elapsed();
