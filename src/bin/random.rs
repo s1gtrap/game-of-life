@@ -1,6 +1,6 @@
 #![feature(div_duration, stdin_forwarders)]
 
-use std::time::{Duration, Instant};
+use std::time::Instant;
 
 fn main() {
     use rand::Rng;
